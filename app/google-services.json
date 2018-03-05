@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "504962641885",
+    "firebase_url": "https://database-1e5f9.firebaseio.com",
+    "project_id": "database-1e5f9",
+    "storage_bucket": "database-1e5f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504962641885:android:10f9a18f7785f682",
+        "android_client_info": {
+          "package_name": "com.samaras.muvi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504962641885-1tn9lspfe59bgnfkbmcd56eka2s47si3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.samaras.muvi",
+            "certificate_hash": "67b6c96d94629cb519006eda589f7a569b7a5db3"
+          }
+        },
+        {
+          "client_id": "504962641885-e1u248onoslb6cs088lq1of1152l3ibm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCykwNEKzsthAGqktqGf2zirX45kEA-dRk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504962641885-e1u248onoslb6cs088lq1of1152l3ibm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
