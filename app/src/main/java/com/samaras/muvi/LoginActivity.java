@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     DatabaseReference rf = FirebaseDatabase.getInstance().getReference("users");
     public static String e_mail;
+    private Context context ;
+
 
     private void signIn(String email, String password) {
         e_mail = new String(email);
@@ -75,14 +77,21 @@ public class LoginActivity extends AppCompatActivity {
         setupUI(findViewById(R.id.parent));
 
         mAuth = FirebaseAuth.getInstance();
+        context = getApplicationContext();
 
         final EditText email = (EditText) findViewById(R.id.editTextEmail);
         final EditText parola = (EditText) findViewById(R.id.editTextParola);
 
-
         Button buttonCr = (Button) findViewById(R.id.buttonCreateUser);
         Button buttonLg = (Button) findViewById(R.id.buttonLogIn);
         Button buttonRp = (Button) findViewById(R.id.buttonResetPassword);
+
+        String prefEmail = SpUtil.getPreferenceString(context, "email");
+        String prefPassword = SpUtil.getPreferenceString(context, "password");
+        if( prefEmail != "" && prefPassword != "") {
+            signIn(prefEmail, prefPassword);
+        }
+
 
         buttonRp.setOnClickListener(new View.OnClickListener() {
 
@@ -113,7 +122,12 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 //Log.i("ceva intr", "vceva" );
                                 rf.child(mAuth.getCurrentUser().getUid().toString()).setValue(new UserObj(stringEmail));
+                                SpUtil.setPreferenceString(context, "email", stringEmail);
+                                SpUtil.setPreferenceString(context, "password", stringParola);
                                 signIn(stringEmail, stringParola);
+                            } else {
+                                 Toast.makeText(getApplicationContext(), "Something went wrong. Please try again!",
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -129,7 +143,8 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     final String stringEmail = email.getText().toString();
                     final String stringParola = parola.getText().toString();
-
+                    SpUtil.setPreferenceString(context, "email", stringEmail);
+                    SpUtil.setPreferenceString(context, "password", stringParola);
                     signIn(stringEmail, stringParola);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Please enter username and password", Toast.LENGTH_LONG).show();

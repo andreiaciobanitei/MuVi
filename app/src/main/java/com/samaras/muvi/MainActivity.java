@@ -156,12 +156,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        PrimaryDrawerItem wishlistItem = new PrimaryDrawerItem().withIdentifier(11).withName("Wishlist")
+        PrimaryDrawerItem wishlistItem = new PrimaryDrawerItem().withIdentifier(11).withName("Watchlist")
                 .withIcon(GoogleMaterial.Icon.gmd_card_giftcard)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        tv.setText("Wishlist");
+                        tv.setText("Watchlist");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
 
@@ -221,8 +221,9 @@ public class MainActivity extends AppCompatActivity {
                                                         break;
                                                     }
                                                 }
-
                                                 dialog.dismiss();
+                                                Toast.makeText(getApplicationContext(), titles[i] + " was removed from your watchlist!",
+                                                        Toast.LENGTH_LONG).show();
                                             }})
                                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                                             @Override
@@ -292,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
         categorySubitems.add(catComedy);
         categorySubitems.add(catThriller);
         categorySubitems.add(catHorror);
+
         PrimaryDrawerItem categoriesItem = new PrimaryDrawerItem().withIdentifier(7)
                 .withSubItems(categorySubitems).withName("Categories")
                 .withIcon(GoogleMaterial.Icon.gmd_list)
@@ -315,6 +317,8 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
+                        SpUtil.setPreferenceString(context, "email", "");
+                        SpUtil.setPreferenceString(context, "password", "");
                         // TODO: add firebase logout
                         return false;
                     }
@@ -529,7 +533,10 @@ public class MainActivity extends AppCompatActivity {
                                         MovieInfo movie = new MovieInfo(titles[i], descriptions[i], ratings[i], genres[i], images[i]);
                                         Wishlist.getInstance().addMovie(movie);
                                         System.out.println(Wishlist.getInstance().size());
+
                                         dialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), titles[i] + " was added to your watchlist!",
+                                                Toast.LENGTH_LONG).show();
                                     }})
                                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                                     @Override

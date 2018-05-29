@@ -1,14 +1,14 @@
 <component name="libraryTable">
   <library name="com.android.support:customtabs-25.1.1">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/customtabs-25.1.1.aar/a407850ae48b1476fd6bac626da83efc/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/customtabs-25.1.1.aar/a407850ae48b1476fd6bac626da83efc/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/customtabs-25.1.1.aar/f56d732783b7db3feb5e6575110dd587/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/customtabs-25.1.1.aar/f56d732783b7db3feb5e6575110dd587/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/Android/Sdk/extras/android/m2repository/com/android/support/customtabs/25.1.1/customtabs-25.1.1-javadoc.jar!/" />
+      <root url="jar://E:/Android_SDK/extras/android/m2repository/com/android/support/customtabs/25.1.1/customtabs-25.1.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/Android/Sdk/extras/android/m2repository/com/android/support/customtabs/25.1.1/customtabs-25.1.1-sources.jar!/" />
+      <root url="jar://E:/Android_SDK/extras/android/m2repository/com/android/support/customtabs/25.1.1/customtabs-25.1.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
