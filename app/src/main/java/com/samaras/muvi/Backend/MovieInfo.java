@@ -2,8 +2,6 @@ package com.samaras.muvi.Backend;
 
 import android.graphics.Bitmap;
 
-import java.util.ArrayList;
-
 /**
  * Created by apo on 11.05.2017.
  */

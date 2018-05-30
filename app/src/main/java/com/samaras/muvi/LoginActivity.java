@@ -1,33 +1,24 @@
 package com.samaras.muvi;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.lang.UProperty;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,15 +27,16 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
     DatabaseReference rf = FirebaseDatabase.getInstance().getReference("users");
-    public static String e_mail;
     private Context context ;
-
+    private ProgressBar mProgressBar;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     private void signIn(String email, String password) {
-        e_mail = new String(email);
         Log.d(TAG, "signIn:" + email);
 
-        // [START sign_in_with_email]
+        final String  prefEmail = email;
+        final String prefPassword = password;
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -52,12 +44,12 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText(getApplicationContext(), "Authentication succesful.",
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent switchIntent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(switchIntent);
+                            hideDialog();
+                            SpUtil.setPreferenceString(context, "email", prefEmail);
+                            SpUtil.setPreferenceString(context, "password", prefPassword);
+
                         } else {
+                            hideDialog();
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
@@ -74,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setupUI(findViewById(R.id.parent));
 
         mAuth = FirebaseAuth.getInstance();
         context = getApplicationContext();
@@ -85,13 +76,9 @@ public class LoginActivity extends AppCompatActivity {
         Button buttonCr = (Button) findViewById(R.id.buttonCreateUser);
         Button buttonLg = (Button) findViewById(R.id.buttonLogIn);
         Button buttonRp = (Button) findViewById(R.id.buttonResetPassword);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        String prefEmail = SpUtil.getPreferenceString(context, "email");
-        String prefPassword = SpUtil.getPreferenceString(context, "password");
-        if( prefEmail != "" && prefPassword != "") {
-            signIn(prefEmail, prefPassword);
-        }
-
+        setupFirebaseAuth();
 
         buttonRp.setOnClickListener(new View.OnClickListener() {
 
@@ -99,10 +86,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     final String emailRequest = email.getText().toString();
-
-                    Toast.makeText(getApplicationContext(), "Reset password request sent to " + emailRequest,
-                            Toast.LENGTH_LONG).show();
-                    mAuth.sendPasswordResetEmail(emailRequest);
+                    if(!emailRequest.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Reset password request sent to " + emailRequest,
+                                Toast.LENGTH_LONG).show();
+                        mAuth.sendPasswordResetEmail(emailRequest);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Insert an email!", Toast.LENGTH_LONG).show();
+                    }
+                    hideKeyboard(v);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Wrong email" ,
                             Toast.LENGTH_LONG).show();
@@ -113,27 +104,11 @@ public class LoginActivity extends AppCompatActivity {
         buttonCr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    final String stringEmail = email.getText().toString();
-                    final String stringParola = parola.getText().toString();
-                    mAuth.createUserWithEmailAndPassword(stringEmail, stringParola).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                //Log.i("ceva intr", "vceva" );
-                                rf.child(mAuth.getCurrentUser().getUid().toString()).setValue(new UserObj(stringEmail));
-                                SpUtil.setPreferenceString(context, "email", stringEmail);
-                                SpUtil.setPreferenceString(context, "password", stringParola);
-                                signIn(stringEmail, stringParola);
-                            } else {
-                                 Toast.makeText(getApplicationContext(), "Something went wrong. Please try again!",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Please enter username and password", Toast.LENGTH_LONG).show();
-                }
+
+
+                Intent switchIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(switchIntent);
+
             }
         });
 
@@ -141,11 +116,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
+                    showDialog();
+
                     final String stringEmail = email.getText().toString();
                     final String stringParola = parola.getText().toString();
-                    SpUtil.setPreferenceString(context, "email", stringEmail);
-                    SpUtil.setPreferenceString(context, "password", stringParola);
                     signIn(stringEmail, stringParola);
+                    hideKeyboard(view);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Please enter username and password", Toast.LENGTH_LONG).show();
                 }
@@ -153,26 +129,68 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void setupUI(View view) {
-        if (view == null) {
-            return;
+    public void hideKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+    private boolean isEmpty(String string) {
+        return string.equals("");
+    }
 
-        if (!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    Utils.hideKeyboard(LoginActivity.this);
-                    return false;
+    private void showDialog(){
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideDialog(){
+        if(mProgressBar.getVisibility() == View.VISIBLE){
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void setupFirebaseAuth(){
+        Log.d(TAG, "setupFirebaseAuth: started.");
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+                    //check if email is verified
+                    if(user.isEmailVerified()){
+                        Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                        Toast.makeText(getApplicationContext(), "Authentication succesful.", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Email is not Verified\nCheck your Inbox", Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-            });
-        }
-
-        if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                View innerView = ((ViewGroup) view).getChildAt(i);
-                setupUI(innerView);
             }
+        };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
     }
 }

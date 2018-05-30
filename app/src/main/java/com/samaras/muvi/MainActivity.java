@@ -1,12 +1,10 @@
 package com.samaras.muvi;
 
-import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -16,8 +14,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,6 +25,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -39,7 +36,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.samaras.muvi.Backend.ClientHTTP;
 import com.samaras.muvi.Backend.CustomList;
 import com.samaras.muvi.Backend.MovieInfo;
@@ -315,11 +311,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         finish();
+                        Intent switchIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(switchIntent);
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
                         SpUtil.setPreferenceString(context, "email", "");
                         SpUtil.setPreferenceString(context, "password", "");
-                        // TODO: add firebase logout
+                        FirebaseAuth.getInstance().signOut();
                         return false;
                     }
                 });

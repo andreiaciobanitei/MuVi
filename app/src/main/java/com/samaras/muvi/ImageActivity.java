@@ -1,14 +1,12 @@
 package com.samaras.muvi;
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by Andrei Aciobanitei on 20.05.2017.
  */
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
