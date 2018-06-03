@@ -5,6 +5,11 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="register">Register</string>
-
-
+    <string name="forgot_password">Forgot Password</string>
+    <string name="resend_verification_email">Resend verification email</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_password">Reset Password</string>
 </resources>

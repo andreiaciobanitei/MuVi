@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_amber_50"
-    tools:context="com.samaras.muvi.FirstActivity">
+    tools:context="com.samaras.muvi.Activities.FirstActivity">
 
     <ImageView
         android:id="@+id/imageView8"
