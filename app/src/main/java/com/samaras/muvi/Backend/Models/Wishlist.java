@@ -1,10 +1,7 @@
-package com.samaras.muvi.Backend;
+package com.samaras.muvi.Backend.Models;
 
 import java.util.HashSet;
 
-/**
- * Created by Apo on 17-May-17.
- */
 
 public class Wishlist {
     private static Wishlist instance = null;

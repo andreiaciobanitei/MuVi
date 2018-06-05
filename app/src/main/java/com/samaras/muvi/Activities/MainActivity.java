@@ -27,14 +27,12 @@ import android.widget.EditText;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -46,10 +44,10 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.samaras.muvi.Backend.ClientHTTP;
-import com.samaras.muvi.Backend.CustomList;
-import com.samaras.muvi.Backend.MovieInfo;
-import com.samaras.muvi.Backend.MovieList;
-import com.samaras.muvi.Backend.Wishlist;
+import com.samaras.muvi.Backend.Models.CustomList;
+import com.samaras.muvi.Backend.Models.MovieInfo;
+import com.samaras.muvi.Backend.Models.MovieList;
+import com.samaras.muvi.Backend.Models.Wishlist;
 import com.samaras.muvi.R;
 import com.samaras.muvi.Backend.SpUtil;
 
@@ -71,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ProgressDialog pDialog;
     private ListView lv;
+    private FirebaseUser user;
     MovieList movieList;
     Context context;
     Toolbar toolbar;
@@ -357,14 +356,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(ProfileActivity.accountName)
-                                .withEmail(ProfileActivity.eMail)
-                                .withIcon(ImageActivity.selectedImage)
+                        new ProfileDrawerItem()
+                                .withName(user.getDisplayName())
+                                .withIcon(user.getPhotoUrl())
                 )
                 .build();
 
@@ -418,7 +418,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "checkAuthenticationState: checking authentication state.");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         if(user == null){
             Log.d(TAG, "checkAuthenticationState: user is null, navigating back to login screen.");
 

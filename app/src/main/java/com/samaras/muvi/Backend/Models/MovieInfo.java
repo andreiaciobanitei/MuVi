@@ -1,4 +1,4 @@
-package com.samaras.muvi.Backend;
+package com.samaras.muvi.Backend.Models;
 
 import android.graphics.Bitmap;
 
