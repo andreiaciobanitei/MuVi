@@ -9,7 +9,10 @@ import ro.pub.acs.hyccups.opportunistic.Channel;
 
 public class MyChannel extends Channel {
     @Override
-    public String getName() { return null; }
+    public String getName() {
+        Log.v("MyChannel", "debug");
+        return "MyChannel";
+    }
 
     @Override
     public List getInterests() { return null; }
