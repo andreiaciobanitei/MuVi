@@ -50,7 +50,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
-        android:layout_width="389dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/linkBlue"
         android:elevation="4dp"
@@ -66,7 +66,7 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="0dp"
-        android:layout_height="505dp"
+        android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

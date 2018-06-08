@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -26,6 +28,7 @@ import android.widget.EditText;
 
 import android.widget.AdapterView;
 
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,6 +46,9 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.samaras.muvi.Backend.ClientHTTP;
 import com.samaras.muvi.Backend.Models.CustomList;
 import com.samaras.muvi.Backend.Models.MovieInfo;
@@ -50,6 +56,7 @@ import com.samaras.muvi.Backend.Models.MovieList;
 import com.samaras.muvi.Backend.Models.Wishlist;
 import com.samaras.muvi.R;
 import com.samaras.muvi.Backend.SpUtil;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -87,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     String[] genres;
     String[] original_descriptions;
     int current_index = 0;
+    AccountHeader headerResult;
 
     public static void close(){
         item.collapseActionView();
@@ -149,6 +157,23 @@ public class MainActivity extends AppCompatActivity {
                 searchbox.setVisibility(View.INVISIBLE);
             }
         });
+
+
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext())
+                        .load(uri).placeholder(placeholder)
+                        .into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext())
+                        .cancelRequest(imageView);
+            }
+        });
+
 
         PrimaryDrawerItem trendingItem = new PrimaryDrawerItem().withIdentifier(1).withName("Trending")
                 .withIcon(GoogleMaterial.Icon.gmd_trending_up)
@@ -357,7 +382,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        AccountHeader headerResult = new AccountHeaderBuilder()
+        headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withHeaderBackground(R.drawable.header)
@@ -365,6 +390,7 @@ public class MainActivity extends AppCompatActivity {
                         new ProfileDrawerItem()
                                 .withName(user.getDisplayName())
                                 .withIcon(user.getPhotoUrl())
+                                .withIdentifier(1)
                 )
                 .build();
 
@@ -406,11 +432,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkAuthenticationState();
+        updateUserProfile();
+
     }
     public void hideKeyboard(View view) {
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    private void updateUserProfile(){
+        if(user != null) {
+            IProfile activeProfile = headerResult.getActiveProfile();
+            activeProfile.withName(user.getDisplayName());
+            activeProfile.withIcon(user.getPhotoUrl());
+            headerResult.updateProfile(activeProfile);
         }
     }
 
