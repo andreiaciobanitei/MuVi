@@ -1,8 +1,6 @@
-package com.samaras.muvi.Backend;
+package com.samaras.muvi.Backend.Models;
 
 import android.graphics.Bitmap;
-
-import java.util.ArrayList;
 
 /**
  * Created by apo on 11.05.2017.

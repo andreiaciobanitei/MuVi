@@ -1,11 +1,10 @@
-package com.samaras.muvi.Backend;
+package com.samaras.muvi.Backend.Models;
+
+import com.samaras.muvi.Backend.Models.MovieInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by apo on 11.05.2017.
- */
 
 public class MovieList {
     public static ArrayList<MovieInfo> movies;

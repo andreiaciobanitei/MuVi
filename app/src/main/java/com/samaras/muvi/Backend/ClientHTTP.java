@@ -1,9 +1,5 @@
 package com.samaras.muvi.Backend;
 
-/**
- * Created by apo on 11.05.2017.
- */
-
 public class ClientHTTP {
     private static final String API_KEY = "f76dfa1acb7d1a736694eec710bd040b";
     private static final String baseLink = "https://api.themoviedb.org/3";

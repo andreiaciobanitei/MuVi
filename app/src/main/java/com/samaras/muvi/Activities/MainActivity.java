@@ -1,34 +1,41 @@
-package com.samaras.muvi;
+package com.samaras.muvi.Activities;
 
-import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.AdapterView;
 
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -40,11 +47,16 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.samaras.muvi.Backend.ClientHTTP;
-import com.samaras.muvi.Backend.CustomList;
-import com.samaras.muvi.Backend.MovieInfo;
-import com.samaras.muvi.Backend.MovieList;
-import com.samaras.muvi.Backend.Wishlist;
+import com.samaras.muvi.Backend.Models.CustomList;
+import com.samaras.muvi.Backend.Models.MovieInfo;
+import com.samaras.muvi.Backend.Models.MovieList;
+import com.samaras.muvi.Backend.Models.Wishlist;
+import com.samaras.muvi.R;
+import com.samaras.muvi.Backend.SpUtil;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -60,23 +72,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * Created by Apo on 11-May-17.
- */
-
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private ProgressDialog pDialog;
     private ListView lv;
+    private FirebaseUser user;
     MovieList movieList;
-    TextView tv;
     Context context;
-
+    Toolbar toolbar;
     ConstraintLayout searchbox;
     Button searchButton;
     EditText searchTerm;
-
+    SearchView searchView;
     ArrayList<HashMap<String, String>> movieInfos;
-
+    private static MenuItem item;
     Drawer result;
     Bitmap[] images;
     String[] titles;
@@ -85,24 +94,53 @@ public class MainActivity extends AppCompatActivity {
     String[] genres;
     String[] original_descriptions;
     int current_index = 0;
+    AccountHeader headerResult;
 
-    public void onBackPressed() {
-        if(result.isDrawerOpen())
-            result.closeDrawer();
+    public static void close(){
+        item.collapseActionView();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+        item = menu.findItem(R.id.action_search);
 
+        SearchView mSearchView = (SearchView) item.getActionView();
+        mSearchView.setQueryHint("Search for a movie");
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String term = query.replaceAll(" ", "+");
+                String url = ClientHTTP.createURL("/search/movie") + "&query=\"" + term + "\"";
+                new JSONAsyncTask(url, null).execute();
+                setActionBarName("Search results for: \"" + term.replaceAll("\\+", " ") + "\"");
+                lv.setVisibility(View.VISIBLE);
+                searchbox.setVisibility(View.INVISIBLE);
+                close();
+
+
+                return  true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
         context = getApplicationContext();
 
         movieList = new MovieList();
         movieInfos = new ArrayList<>();
 
         lv = (ListView) findViewById(R.id.list);
-        tv = (TextView)findViewById(R.id.categoryTitle);
         searchbox = (ConstraintLayout) findViewById(R.id.searchbox);
         searchButton = (Button) findViewById(R.id.searchButton);
         searchTerm = (EditText) findViewById(R.id.searchTerm);
@@ -114,11 +152,28 @@ public class MainActivity extends AppCompatActivity {
                 term = term.replaceAll(" ", "+");
                 String url = ClientHTTP.createURL("/search/movie") + "&query=\"" + term + "\"";
                 new JSONAsyncTask(url, null).execute();
-                tv.setText("Search results for: \"" + term.replaceAll("\\+", " ") + "\"");
+                setActionBarName("Search results for: \"" + term.replaceAll("\\+", " ") + "\"");
                 lv.setVisibility(View.VISIBLE);
                 searchbox.setVisibility(View.INVISIBLE);
             }
         });
+
+
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext())
+                        .load(uri).placeholder(placeholder)
+                        .into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext())
+                        .cancelRequest(imageView);
+            }
+        });
+
 
         PrimaryDrawerItem trendingItem = new PrimaryDrawerItem().withIdentifier(1).withName("Trending")
                 .withIcon(GoogleMaterial.Icon.gmd_trending_up)
@@ -126,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         (new JSONAsyncTask(ClientHTTP.createURL("/movie/now_playing"), null)).execute();
-                        tv.setText("Trending");
+                        setActionBarName("Trending");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
                         return false;
@@ -138,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         new JSONAsyncTask(ClientHTTP.createURL("/movie/top_rated"), null).execute();
-                        tv.setText("Top Rated");
+                        setActionBarName("Top Rated");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
                         return false;
@@ -149,19 +204,19 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        tv.setText("Search");
+                        setActionBarName("Search");
                         lv.setVisibility(View.INVISIBLE);
                         searchbox.setVisibility(View.VISIBLE);
                         return false;
                     }
                 });
 
-        PrimaryDrawerItem wishlistItem = new PrimaryDrawerItem().withIdentifier(11).withName("Wishlist")
+        PrimaryDrawerItem wishlistItem = new PrimaryDrawerItem().withIdentifier(11).withName("Watchlist")
                 .withIcon(GoogleMaterial.Icon.gmd_card_giftcard)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        tv.setText("Wishlist");
+                        setActionBarName("Watchlist");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
 
@@ -221,8 +276,9 @@ public class MainActivity extends AppCompatActivity {
                                                         break;
                                                     }
                                                 }
-
                                                 dialog.dismiss();
+                                                Toast.makeText(getApplicationContext(), titles[i] + " was removed from your watchlist!",
+                                                        Toast.LENGTH_LONG).show();
                                             }})
                                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                                             @Override
@@ -246,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         new JSONAsyncTask(ClientHTTP.createURL("/genre/28/movies"), null).execute();
-                        tv.setText("Action");
+                        setActionBarName("Action");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
                         return false;
@@ -258,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         new JSONAsyncTask(ClientHTTP.createURL("/genre/35/movies"), null).execute();
-                        tv.setText("Comedy");
+                        setActionBarName("Comedy");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
                         return false;
@@ -270,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         new JSONAsyncTask(ClientHTTP.createURL("/genre/53/movies"), null).execute();
-                        tv.setText("Thriller");
+                        setActionBarName("Thriller");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
                         return false;
@@ -282,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         new JSONAsyncTask(ClientHTTP.createURL("/genre/27/movies"), null).execute();
-                        tv.setText("Horror");
+                        setActionBarName("Horror");
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
                         return false;
@@ -292,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
         categorySubitems.add(catComedy);
         categorySubitems.add(catThriller);
         categorySubitems.add(catHorror);
+
         PrimaryDrawerItem categoriesItem = new PrimaryDrawerItem().withIdentifier(7)
                 .withSubItems(categorySubitems).withName("Categories")
                 .withIcon(GoogleMaterial.Icon.gmd_list)
@@ -313,27 +370,34 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         finish();
+                        Intent switchIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(switchIntent);
                         lv.setVisibility(View.VISIBLE);
                         searchbox.setVisibility(View.INVISIBLE);
-                        // TODO: add firebase logout
+                        SpUtil.setPreferenceString(context, "email", "");
+                        SpUtil.setPreferenceString(context, "password", "");
+                        FirebaseAuth.getInstance().signOut();
                         return false;
                     }
                 });
 
-        AccountHeader headerResult = new AccountHeaderBuilder()
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(ProfileActivity.accountName)
-                                .withEmail(ProfileActivity.eMail)
-                                .withIcon(ImageActivity.selectedImage)
+                        new ProfileDrawerItem()
+                                .withName(user.getDisplayName())
+                                .withIcon(user.getPhotoUrl())
+                                .withIdentifier(1)
                 )
                 .build();
 
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
+                .withToolbar(toolbar)
                 .addDrawerItems(
                         trendingItem,
                         topRatedItem,
@@ -344,12 +408,11 @@ public class MainActivity extends AppCompatActivity {
                         profileItem,
                         logoutItem)
                 .withAccountHeader(headerResult)
-
                 .build();
 
 
         (new JSONAsyncTask(ClientHTTP.createURL("/movie/now_playing"), null)).execute();
-        tv.setText("Trending");
+        setActionBarName("Trending");
 
     }
 
@@ -365,8 +428,49 @@ public class MainActivity extends AppCompatActivity {
         pDialog.dismiss();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAuthenticationState();
+        updateUserProfile();
 
+    }
+    public void hideKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
+    private void updateUserProfile(){
+        if(user != null) {
+            IProfile activeProfile = headerResult.getActiveProfile();
+            activeProfile.withName(user.getDisplayName());
+            activeProfile.withIcon(user.getPhotoUrl());
+            headerResult.updateProfile(activeProfile);
+        }
+    }
+
+    private void checkAuthenticationState(){
+        Log.d(TAG, "checkAuthenticationState: checking authentication state.");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            Log.d(TAG, "checkAuthenticationState: user is null, navigating back to login screen.");
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }else{
+            Log.d(TAG, "checkAuthenticationState: user is authenticated.");
+        }
+    }
+
+    public void setActionBarName(String name) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(name);
+    }
 
     public class JSONAsyncTask extends AsyncTask<String, Void, String> {
         HttpURLConnection urlConnection;
@@ -529,7 +633,10 @@ public class MainActivity extends AppCompatActivity {
                                         MovieInfo movie = new MovieInfo(titles[i], descriptions[i], ratings[i], genres[i], images[i]);
                                         Wishlist.getInstance().addMovie(movie);
                                         System.out.println(Wishlist.getInstance().size());
+
                                         dialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), titles[i] + " was added to your watchlist!",
+                                                Toast.LENGTH_LONG).show();
                                     }})
                                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                                     @Override

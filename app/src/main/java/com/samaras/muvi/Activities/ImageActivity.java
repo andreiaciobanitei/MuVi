@@ -1,14 +1,12 @@
-package com.samaras.muvi;
+package com.samaras.muvi.Activities;
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by Andrei Aciobanitei on 20.05.2017.
  */
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -18,6 +16,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.samaras.muvi.*;
 
 public class ImageActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMG = 1, RESULT_TAKE_IMG = 2;
