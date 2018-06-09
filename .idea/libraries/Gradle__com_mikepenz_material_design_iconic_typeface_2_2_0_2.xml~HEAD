@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mikepenz:material-design-iconic-typeface-2.2.0.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-design-iconic-typeface-2.2.0.2.aar/4c7b77699eab2df35904296fa03f923e/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-design-iconic-typeface-2.2.0.2.aar/4c7b77699eab2df35904296fa03f923e/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mikepenz/material-design-iconic-typeface/2.2.0.2/23a94ad22f61ae63096ce08bb51f88a1a8bf490c/material-design-iconic-typeface-2.2.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

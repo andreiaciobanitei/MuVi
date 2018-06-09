@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.samaras.muvi">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -62,33 +61,10 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-
-        <service
-            android:name=".OpportunisticCommunication"
-            android:exported="true"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="ro.pub.acs.hyccups.opportunistic.IHost" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter></service>
-
-        <receiver android:name="OpportunisticReceiver" >
-        </receiver>
-    </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" />
-=======
 
         <activity android:name=".Activities.RegisterActivity"
             android:screenOrientation="portrait">
         </activity>
     </application>
->>>>>>> cosmin
 
 </manifest>
