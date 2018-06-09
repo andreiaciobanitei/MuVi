@@ -34,12 +34,12 @@ public class UserObj {
         public void onPeerConnected(String deviceId, String userId) {
             Toast.makeText(getApplicationContext(), "Connected: " + deviceId,
                     Toast.LENGTH_SHORT).show();
-            Log.v("MyChannel", "onPeerConnected: " + deviceId + "," + userId);
+            Log.v("OpportunisticCommunication", "onPeerConnected: " + deviceId + "," + userId);
         }
 
         @Override
         public void onPeerDisconnected(String deviceId, String userId) {
-            Log.v("MyChannel", "onPeerDisconnected: " + deviceId + "," + userId);
+            Log.v("OpportunisticCommunication", "onPeerDisconnected: " + deviceId + "," + userId);
         }
 
         @Override

@@ -1,5 +1,7 @@
 package com.samaras.muvi;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.util.Log;
 
 import java.util.*;
@@ -7,11 +9,11 @@ import java.util.*;
 import ro.pub.acs.hyccups.opportunistic.Channel;
 
 
-public class MyChannel extends Channel {
+public class OpportunisticCommunication extends Channel {
     @Override
     public String getName() {
-        Log.v("MyChannel", "debug");
-        return "MyChannel";
+        Log.v("OpportunisticComm", "debug");
+        return "OpportunisticCommunication";
     }
 
     @Override
@@ -19,12 +21,20 @@ public class MyChannel extends Channel {
 
     @Override
     public void onPeerConnected(String deviceId, String userId) {
-        Log.v("MyChannel", "onPeerConnected: " + deviceId + "," + userId);
+        Intent intent = new Intent(this, OpportunisticReceiver.class);
+        intent.putExtra("action", "connected");
+        intent.putExtra("userId", userId);
+        sendBroadcast(intent);
+        Log.v("OpportunisticComm", "onPeerConnected: " + deviceId + "," + userId);
     }
 
     @Override
     public void onPeerDisconnected(String deviceId, String userId) {
-        Log.v("MyChannel", "onPeerDisconnected: " + deviceId + "," + userId);
+        Intent intent = new Intent(this, OpportunisticReceiver.class);
+        intent.putExtra("action", "disconnected");
+        intent.putExtra("userId", userId);
+        sendBroadcast(intent);
+        Log.v("OpportunisticComm", "onPeerDisconnected: " + deviceId + "," + userId);
     }
 
     @Override

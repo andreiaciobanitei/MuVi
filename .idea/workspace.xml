@@ -7,24 +7,23 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9edfb021-1469-4f38-a33b-62e049266691" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/built.bin" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties.lock" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/MuVi.iml" afterPath="$PROJECT_DIR$/MuVi.iml" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MyChannel.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MyChannel.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticReceiver.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticReceiver.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/UserObj.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/UserObj.java" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -50,9 +49,21 @@
       <file leaf-file-name="ImageActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/ImageActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-414">
+            <state relative-caret-position="72">
               <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OpportunisticReceiver.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticReceiver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="41" column="29" lean-forward="false" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -60,8 +71,8 @@
       <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="52" column="47" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="53" selection-end-column="63" />
+            <state relative-caret-position="1674">
+              <caret line="121" column="17" lean-forward="false" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -79,22 +90,34 @@
       </file>
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
           <provider editor-type-id="android-manifest">
             <state />
           </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyChannel.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MyChannel.java">
+      <file leaf-file-name="OpportunisticCommunication.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="24" lean-forward="false" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+            <state relative-caret-position="504">
+              <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4446">
+              <caret line="305" column="52" lean-forward="false" selection-start-line="304" selection-start-column="24" selection-end-line="305" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -108,6 +131,25 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>Conn</find>
+      <find>Connected</find>
+      <find>OpportunisticCommunication</find>
+      <find>onPeerDisconn</find>
+      <find>onPeerDisco</find>
+      <find>debug</find>
+      <find>OpportunisticComm</find>
+      <find>onPeerConnected</find>
+      <find>onPeerConne</find>
+      <find>Wishlis</find>
+      <find>onPeer</find>
+      <find>onPeerConnec</find>
+      <find>onPeerDiscon</find>
+      <find>onPeerCon</find>
+      <find>onPeerConn</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -2150,8 +2192,12 @@
       <list>
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/Backend/MyChannel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MyChannel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticReceiver.java" />
       </list>
     </option>
   </component>
@@ -2177,10 +2223,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="AndroidView" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -2192,12 +2238,6 @@
               <item name="MuVi" type="b2602c69:ProjectViewProjectNode" />
               <item name="MuVi" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="MuVi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MuVi" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="libs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MuVi" type="b2602c69:ProjectViewProjectNode" />
@@ -2229,6 +2269,24 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="muvi" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="MuVi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MuVi" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="muvi" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MuVi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MuVi" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -2236,11 +2294,17 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/libs/opportunistic-layer-5.1.jar" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1528063911076" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1528541115138" />
     <property name="device.picker.selection" value="12160c6c8d230503" />
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
+    <property name="android.profiler.active" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -2389,18 +2453,6 @@
       <module name="" />
       <envs />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="WORKING_DIRECTORY" />
-      <module name="MuVi" />
-      <envs />
-    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -2450,6 +2502,18 @@
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <module name="MuVi" />
+      <envs />
+    </configuration>
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
     </configuration>
@@ -2481,38 +2545,39 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="114" width="1853" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25701943" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24792473" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -2523,6 +2588,153 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/ImageActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="17" lean-forward="false" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1674">
+          <caret line="121" column="17" lean-forward="false" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4446">
+          <caret line="305" column="52" lean-forward="false" selection-start-line="304" selection-start-column="24" selection-end-line="305" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="46" column="43" lean-forward="false" selection-start-line="46" selection-start-column="43" selection-end-line="46" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/ImageActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="53" column="44" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="53" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="46" column="26" lean-forward="false" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="17" lean-forward="false" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="20" column="65" lean-forward="false" selection-start-line="20" selection-start-column="65" selection-end-line="20" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/ImageActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="52" column="47" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="53" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="17" lean-forward="false" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="24" lean-forward="false" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/ImageActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -2563,46 +2775,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/ImageActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/Backend/MyChannel.java" />
+    <entry file="file://$PROJECT_DIR$/app/app.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-414">
-          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        <state relative-caret-position="-3006">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/Backend/MyChannel.java">
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="17" column="72" lean-forward="false" selection-start-line="17" selection-start-column="72" selection-end-line="17" selection-end-column="72" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MuVi.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/Backend/OpportunisticReceiver.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4446">
+          <caret line="305" column="52" lean-forward="false" selection-start-line="304" selection-start-column="24" selection-end-line="305" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="52" column="47" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="53" selection-end-column="63" />
+        <state relative-caret-position="1674">
+          <caret line="121" column="17" lean-forward="false" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticCommunication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
       <provider editor-type-id="android-manifest">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/MyChannel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="24" lean-forward="false" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+        <state relative-caret-position="162">
+          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/ImageActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/samaras/muvi/OpportunisticReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="41" column="29" lean-forward="false" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
