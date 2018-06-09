@@ -65,6 +65,18 @@
         <activity android:name=".Activities.RegisterActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <service
+            android:name=".OpportunisticCommunication"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="ro.pub.acs.hyccups.opportunistic.IHost" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter></service>
+
+        <receiver android:name="OpportunisticReceiver" >
+        </receiver>
     </application>
 
 </manifest>
