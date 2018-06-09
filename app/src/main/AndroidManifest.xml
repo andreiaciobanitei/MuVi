@@ -25,35 +25,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity">
+
+        <activity android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait">
 
             <!-- Default Intent Filter -->
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoginActivity">
+
+        <activity android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait">
 
             <!-- Default Intent Filter -->
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ImageActivity">
+
+        <activity android:name=".Activities.ImageActivity"
+            android:screenOrientation="portrait">
 
             <!-- Default Intent Filter -->
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ProfileActivity">
+
+        <activity android:name=".Activities.ProfileActivity"
+            android:screenOrientation="portrait">
 
             <!-- Default Intent Filter -->
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.RegisterActivity"></activity>
+
+        <activity android:name=".Activities.RegisterActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

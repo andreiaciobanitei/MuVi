@@ -12,4 +12,5 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="reset_password">Reset Password</string>
+    <string name="save_profile_menu">save</string>
 </resources>

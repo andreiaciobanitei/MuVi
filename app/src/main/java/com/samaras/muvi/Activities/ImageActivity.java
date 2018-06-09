@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.samaras.muvi.R;
+import com.samaras.muvi.*;
 
 public class ImageActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMG = 1, RESULT_TAKE_IMG = 2;
