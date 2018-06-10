@@ -2,11 +2,11 @@ package com.samaras.muvi.Backend.Models;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by apo on 11.05.2017.
- */
+import java.net.IDN;
+
 
 public class MovieInfo {
+    public String id;
     public String title;
     public String description;
     public String genres;
@@ -26,8 +26,16 @@ public class MovieInfo {
         return title;
     }
 
-    public MovieInfo(String title, String description, String rating, String genres, Bitmap bitmap) {
+    public String getId() {
+        return id;
+    }
+
+    public MovieInfo() {
+    }
+
+    public MovieInfo(String id, String title, String description, String rating, String genres, Bitmap bitmap) {
         this.genres = genres;
+        this.id = id;
         this.rating = rating;
         this.title = title;
         this.description = description;
@@ -37,6 +45,7 @@ public class MovieInfo {
 
     public void printMovie() {
         System.out.println("------------------------");
+        System.out.println("id: " + id);
         System.out.println("title: " + title);
         System.out.println("description: " + description);
         System.out.println("rating: " + rating);

@@ -36,6 +36,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -51,6 +53,7 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.samaras.muvi.Backend.ClientHTTP;
 import com.samaras.muvi.Backend.Models.CustomList;
+import com.samaras.muvi.Backend.Models.Movie;
 import com.samaras.muvi.Backend.Models.MovieInfo;
 import com.samaras.muvi.Backend.Models.MovieList;
 import com.samaras.muvi.Backend.Models.Wishlist;
@@ -84,17 +87,19 @@ public class MainActivity extends AppCompatActivity {
     Button searchButton;
     EditText searchTerm;
     SearchView searchView;
-    ArrayList<HashMap<String, String>> movieInfos;
     private static MenuItem item;
     Drawer result;
     Bitmap[] images;
+    String[] imagesUrl;
     String[] titles;
+    String[] ids;
     String[] ratings;
     String[] descriptions;
     String[] genres;
-    String[] original_descriptions;
     int current_index = 0;
     AccountHeader headerResult;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
 
     public static void close(){
         item.collapseActionView();
@@ -116,8 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 lv.setVisibility(View.VISIBLE);
                 searchbox.setVisibility(View.INVISIBLE);
                 close();
-
-
                 return  true;
             }
 
@@ -136,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         context = getApplicationContext();
-
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabaseReference = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("watchlist");
         movieList = new MovieList();
-        movieInfos = new ArrayList<>();
-
         lv = (ListView) findViewById(R.id.list);
         searchbox = (ConstraintLayout) findViewById(R.id.searchbox);
         searchButton = (Button) findViewById(R.id.searchButton);
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                         .cancelRequest(imageView);
             }
         });
-
+        Wishlist.getInstance().fillWatchlist();
 
         PrimaryDrawerItem trendingItem = new PrimaryDrawerItem().withIdentifier(1).withName("Trending")
                 .withIcon(GoogleMaterial.Icon.gmd_trending_up)
@@ -222,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
                         HashSet<MovieInfo> list = Wishlist.getInstance().list;
 
+                        ids = new String[list.size()];
                         titles = new String[list.size()];
                         images = new Bitmap[list.size()];
                         descriptions = new String[list.size()];
@@ -230,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
                         int i = 0;
                         for(MovieInfo movie : Wishlist.getInstance().list) {
+                            ids[i] = movie.id;
                             titles[i] = movie.title;
                             descriptions[i] = movie.description;
                             ratings[i] = movie.rating;
@@ -238,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                             i++;
                         }
 
-                        CustomList adapter = new CustomList(MainActivity.this, titles, images, descriptions, ratings, genres);
+                        CustomList adapter = new CustomList(MainActivity.this, ids, titles, images, descriptions, ratings, genres);
                         lv.setAdapter(adapter);
 
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -246,16 +251,22 @@ public class MainActivity extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> av, View v, final int i, long l) {
                                 new MaterialDialog.Builder(v.getContext())
                                         .title(titles[i])
-                                        .content(original_descriptions[i])
+                                        .content(descriptions[i])
                                         .negativeText("Close")
                                         .positiveText("Remove from watchlist")
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
                                                 HashSet<MovieInfo> list = Wishlist.getInstance().list;
                                                 for(MovieInfo movie : list) {
                                                     if(movie.title == titles[i]) {
                                                         list.remove(movie);
+                                                        Toast.makeText(getApplicationContext(), titles[i] + " was removed from your watchlist!",
+                                                                Toast.LENGTH_LONG).show();
+
+                                                        mDatabaseReference.child(movie.getId()).removeValue();
+                                                        ids = new String[list.size()];
                                                         titles = new String[list.size()];
                                                         images = new Bitmap[list.size()];
                                                         descriptions = new String[list.size()];
@@ -264,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
                                                         int i = 0;
                                                         for (MovieInfo movie2 : Wishlist.getInstance().list) {
+                                                            ids[i] = movie2.id;
                                                             titles[i] = movie2.title;
                                                             descriptions[i] = movie2.description;
                                                             ratings[i] = movie2.rating;
@@ -271,14 +283,13 @@ public class MainActivity extends AppCompatActivity {
                                                             images[i] = movie2.bitmap;
                                                             i++;
                                                         }
-                                                        CustomList adapter = new CustomList(MainActivity.this, titles, images, descriptions, ratings, genres);
+                                                        CustomList adapter = new CustomList(MainActivity.this, ids, titles, images, descriptions, ratings, genres);
                                                         lv.setAdapter(adapter);
                                                         break;
                                                     }
                                                 }
                                                 dialog.dismiss();
-                                                Toast.makeText(getApplicationContext(), titles[i] + " was removed from your watchlist!",
-                                                        Toast.LENGTH_LONG).show();
+
                                             }})
                                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                                             @Override
@@ -369,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Wishlist.getInstance().clearWishlist();
                         finish();
                         Intent switchIntent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(switchIntent);
@@ -526,34 +538,29 @@ public class MainActivity extends AppCompatActivity {
             try {
                 jsonObject = new JSONObject(result);
                 JSONArray movies = jsonObject.getJSONArray("results");
+                ids = new String [movies.length()];
                 titles = new String[movies.length()];
                 images = new Bitmap[movies.length()];
+                imagesUrl = new String[movies.length()];
                 descriptions = new String[movies.length()];
                 ratings = new String[movies.length()];
                 genres = new String[movies.length()];
-                original_descriptions = new String[movies.length()];
 
                 for (int i = 0; i < movies.length(); i++) {
                     JSONObject obj = movies.getJSONObject(i);
+                    int id = obj.getInt("id");
                     String title = obj.getString("original_title");
                     String description = obj.getString("overview");
                     Double rating = obj.getDouble("vote_average");
                     Double popularity = obj.getDouble("popularity");
                     String path_to_jpg = obj.getString("poster_path");
-                    Integer id = obj.getInt("id");
                     JSONArray genre_ids = obj.getJSONArray("genre_ids");
                     String photoURLString = ClientHTTP.createPhotoURL(path_to_jpg);
                     System.out.println(photoURLString);
 
-
-                    HashMap<String, String> movieInfo = new HashMap<>();
-                    movieInfo.put("title", title);
-                    movieInfo.put("description", description);
-                    movieInfo.put("rating", "Average rating: " + Double.toString(rating));
-                    movieInfos.add(movieInfo);
+                    ids[i] = Integer.toString(id);
                     titles[i] = title;
-
-                    original_descriptions[i] = new String(description);
+                    imagesUrl[i] = photoURLString;
 
                     int description_length = description.length();
                     int stop_index = 170;
@@ -617,23 +624,22 @@ public class MainActivity extends AppCompatActivity {
                 images[current_index] = result;
                 current_index++;
 
-                CustomList adapter = new CustomList(MainActivity.this, titles, images, descriptions, ratings, genres);
+                CustomList adapter = new CustomList(MainActivity.this,ids, titles, images, descriptions, ratings, genres);
                 lv.setAdapter(adapter);
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?> av, View v, final int i, long l) {
                         new MaterialDialog.Builder(v.getContext())
                                 .title(titles[i])
-                                .content(original_descriptions[i])
+                                .content(descriptions[i])
                                 .negativeText("Close")
                                 .positiveText("Add to watchlist")
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        MovieInfo movie = new MovieInfo(titles[i], descriptions[i], ratings[i], genres[i], images[i]);
-                                        Wishlist.getInstance().addMovie(movie);
-                                        System.out.println(Wishlist.getInstance().size());
-
+                                        Movie movie = new Movie(titles[i],descriptions[i],genres[i], ratings[i],imagesUrl[i]);
+                                        if(!Wishlist.getInstance().containsMovie(movie))
+                                            mDatabaseReference.push().setValue(movie);
                                         dialog.dismiss();
                                         Toast.makeText(getApplicationContext(), titles[i] + " was added to your watchlist!",
                                                 Toast.LENGTH_LONG).show();
