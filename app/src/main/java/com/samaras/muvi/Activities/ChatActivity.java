@@ -38,6 +38,7 @@ public class ChatActivity extends AppCompatActivity implements RoomListener {
 
         editText = (EditText) findViewById(R.id.editText);
         messagesView = (ListView) findViewById(R.id.messages_view);
+        messageAdapter = new MessageAdapter(this);
 
         MemberData data = new MemberData(getRandomName(), getRandomColor());
 
@@ -91,7 +92,6 @@ public class ChatActivity extends AppCompatActivity implements RoomListener {
             final MemberData data = mapper.treeToValue(member.getClientData(), MemberData.class);
             boolean belongsToCurrentUser = member.getId().equals(scaledrone.getClientID());
             final Message message = new Message(json.asText(), data, belongsToCurrentUser);
-            messageAdapter = new MessageAdapter(this);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
