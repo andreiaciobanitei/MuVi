@@ -392,6 +392,20 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 });
+        PrimaryDrawerItem chatItem = new PrimaryDrawerItem().withIdentifier(10).withName("Chat")
+                .withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Wishlist.getInstance().clearWishlist();
+                        finish();
+                        Intent switchIntent = new Intent(getApplicationContext(), ChatActivity.class);
+                        startActivity(switchIntent);
+                        lv.setVisibility(View.VISIBLE);
+                        searchbox.setVisibility(View.INVISIBLE);
+                        return false;
+                    }
+                });
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         headerResult = new AccountHeaderBuilder()
@@ -417,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
                         searchItem,
                         wishlistItem,
                         new DividerDrawerItem(),
+                        chatItem,
                         profileItem,
                         logoutItem)
                 .withAccountHeader(headerResult)

@@ -66,6 +66,10 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".Activities.ChatActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
         <service
             android:name=".OpportunisticCommunication"
             android:exported="true"

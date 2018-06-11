@@ -28,14 +28,11 @@ public class OpportunisticReceiver extends BroadcastReceiver {
             if(action.equalsIgnoreCase("connected")) {
                 String userId = intent.getStringExtra("userId");
                 Intent resultIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "Your Phone_number"));
-//                Intent resultIntent = new Intent(context, ProfileActivity.class);
-                // Create the TaskStackBuilder and add the intent, which inflates the back stack
+
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
                 stackBuilder.addNextIntentWithParentStack(resultIntent);
-                // Get the PendingIntent containing the entire back stack
                 PendingIntent pIntent =
                         stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//                PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
 
                 Notification n  = new Notification.Builder(context)
                         .setContentTitle("MuVi")
