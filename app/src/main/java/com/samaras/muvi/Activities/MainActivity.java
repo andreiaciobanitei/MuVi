@@ -4,17 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,8 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 
 import android.widget.AdapterView;
 
@@ -51,17 +49,15 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
-import com.samaras.muvi.Backend.ClientHTTP;
-import com.samaras.muvi.Backend.Models.CustomList;
-import com.samaras.muvi.Backend.Models.Movie;
+import com.samaras.muvi.Backend.ApiUtil;
 import com.samaras.muvi.Backend.Models.MovieInfo;
 import com.samaras.muvi.Backend.Models.MovieList;
 import com.samaras.muvi.Backend.Models.Wishlist;
+import com.samaras.muvi.Backend.MoviesAdapter;
 import com.samaras.muvi.R;
 import com.samaras.muvi.Backend.SpUtil;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -71,35 +67,29 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ProgressDialog pDialog;
-    private ListView lv;
     private FirebaseUser user;
     MovieList movieList;
     Context context;
     Toolbar toolbar;
-    ConstraintLayout searchbox;
-    Button searchButton;
-    EditText searchTerm;
-    SearchView searchView;
     private static MenuItem item;
     Drawer result;
     Bitmap[] images;
-    String[] imagesUrl;
     String[] titles;
     String[] ids;
     String[] ratings;
     String[] descriptions;
     String[] genres;
-    int current_index = 0;
     AccountHeader headerResult;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
+    private RecyclerView rvMovies;
+
 
     public static void close(){
         item.collapseActionView();
@@ -115,11 +105,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String term = query.replaceAll(" ", "+");
-                String url = ClientHTTP.createURL("/search/movie") + "&query=\"" + term + "\"";
+                String url = ApiUtil.createURL("/search/movie") + "&query=\"" + term + "\"";
                 new JSONAsyncTask(url, null).execute();
                 setActionBarName("Search results for: \"" + term.replaceAll("\\+", " ") + "\"");
-                lv.setVisibility(View.VISIBLE);
-                searchbox.setVisibility(View.INVISIBLE);
                 close();
                 return  true;
             }
@@ -143,23 +131,10 @@ public class MainActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabaseReference = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("watchlist");
         movieList = new MovieList();
-        lv = (ListView) findViewById(R.id.list);
-        searchbox = (ConstraintLayout) findViewById(R.id.searchbox);
-        searchButton = (Button) findViewById(R.id.searchButton);
-        searchTerm = (EditText) findViewById(R.id.searchTerm);
+        rvMovies = (RecyclerView) findViewById(R.id.rv_movies);
+        LinearLayoutManager  moviesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvMovies.setLayoutManager(moviesLayoutManager);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String term = searchTerm.getText().toString();
-                term = term.replaceAll(" ", "+");
-                String url = ClientHTTP.createURL("/search/movie") + "&query=\"" + term + "\"";
-                new JSONAsyncTask(url, null).execute();
-                setActionBarName("Search results for: \"" + term.replaceAll("\\+", " ") + "\"");
-                lv.setVisibility(View.VISIBLE);
-                searchbox.setVisibility(View.INVISIBLE);
-            }
-        });
 
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
@@ -176,17 +151,15 @@ public class MainActivity extends AppCompatActivity {
                         .cancelRequest(imageView);
             }
         });
-        Wishlist.getInstance().fillWatchlist();
+        Wishlist.getInstance();
 
         PrimaryDrawerItem trendingItem = new PrimaryDrawerItem().withIdentifier(1).withName("Trending")
                 .withIcon(GoogleMaterial.Icon.gmd_trending_up)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        (new JSONAsyncTask(ClientHTTP.createURL("/movie/now_playing"), null)).execute();
+                        (new JSONAsyncTask(ApiUtil.createURL("/movie/now_playing"), null)).execute();
                         setActionBarName("Trending");
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         return false;
                     }
                 });
@@ -195,10 +168,8 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ClientHTTP.createURL("/movie/top_rated"), null).execute();
+                        new JSONAsyncTask(ApiUtil.createURL("/movie/top_rated"), null).execute();
                         setActionBarName("Top Rated");
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         return false;
                     }
                 });
@@ -208,8 +179,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         setActionBarName("Search");
-                        lv.setVisibility(View.INVISIBLE);
-                        searchbox.setVisibility(View.VISIBLE);
                         return false;
                     }
                 });
@@ -218,77 +187,28 @@ public class MainActivity extends AppCompatActivity {
                 .withIcon(GoogleMaterial.Icon.gmd_card_giftcard)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                    public boolean onItemClick(View view, final int position, IDrawerItem drawerItem) {
                         setActionBarName("Watchlist");
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
 
-                        HashSet<MovieInfo> list = Wishlist.getInstance().list;
-
-                        ids = new String[list.size()];
-                        titles = new String[list.size()];
-                        images = new Bitmap[list.size()];
-                        descriptions = new String[list.size()];
-                        ratings = new String[list.size()];
-                        genres = new String[list.size()];
-
-                        int i = 0;
-                        for(MovieInfo movie : Wishlist.getInstance().list) {
-                            ids[i] = movie.id;
-                            titles[i] = movie.title;
-                            descriptions[i] = movie.description;
-                            ratings[i] = movie.rating;
-                            genres[i] = movie.genres;
-                            images[i] = movie.bitmap;
-                            i++;
-                        }
-
-                        CustomList adapter = new CustomList(MainActivity.this, ids, titles, images, descriptions, ratings, genres);
-                        lv.setAdapter(adapter);
-
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                        ArrayList<MovieInfo> movies = Wishlist.getInstance().list;
+                        final MoviesAdapter adapter = new MoviesAdapter(context, movies);
+                        adapter.setListener(new MoviesAdapter.OnItemClickListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> av, View v, final int i, long l) {
-                                new MaterialDialog.Builder(v.getContext())
-                                        .title(titles[i])
-                                        .content(descriptions[i])
+                            public void onItemClick(MovieInfo item, final int position) {
+                                final MovieInfo movie = item;
+                                new MaterialDialog.Builder(MainActivity.this)
+                                        .title(movie.title)
+                                        .content(movie.description)
                                         .negativeText("Close")
                                         .positiveText("Remove from watchlist")
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
-                                                HashSet<MovieInfo> list = Wishlist.getInstance().list;
-                                                for(MovieInfo movie : list) {
-                                                    if(movie.title == titles[i]) {
-                                                        list.remove(movie);
-                                                        Toast.makeText(getApplicationContext(), titles[i] + " was removed from your watchlist!",
-                                                                Toast.LENGTH_LONG).show();
-
-                                                        mDatabaseReference.child(movie.getId()).removeValue();
-                                                        ids = new String[list.size()];
-                                                        titles = new String[list.size()];
-                                                        images = new Bitmap[list.size()];
-                                                        descriptions = new String[list.size()];
-                                                        ratings = new String[list.size()];
-                                                        genres = new String[list.size()];
-
-                                                        int i = 0;
-                                                        for (MovieInfo movie2 : Wishlist.getInstance().list) {
-                                                            ids[i] = movie2.id;
-                                                            titles[i] = movie2.title;
-                                                            descriptions[i] = movie2.description;
-                                                            ratings[i] = movie2.rating;
-                                                            genres[i] = movie2.genres;
-                                                            images[i] = movie2.bitmap;
-                                                            i++;
-                                                        }
-                                                        CustomList adapter = new CustomList(MainActivity.this, ids, titles, images, descriptions, ratings, genres);
-                                                        lv.setAdapter(adapter);
-                                                        break;
-                                                    }
-                                                }
+                                                mDatabaseReference.child(movie.getId()).removeValue();
+                                                adapter.deleteMovie(position);
                                                 dialog.dismiss();
+                                                Toast.makeText(getApplicationContext(), movie.title + " was removed from your watchlist!",
+                                                        Toast.LENGTH_LONG).show();
 
                                             }})
                                         .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -300,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
                                         .negativeColor(getResources().getColor(R.color.md_red_700))
                                         .show();
                             }
-
                         });
+                        rvMovies.setAdapter(adapter);
                         return false;
                     }
                 });
@@ -312,10 +232,8 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ClientHTTP.createURL("/genre/28/movies"), null).execute();
+                        new JSONAsyncTask(ApiUtil.createURL("/genre/28/movies"), null).execute();
                         setActionBarName("Action");
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         return false;
                     }
                 });
@@ -324,10 +242,8 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ClientHTTP.createURL("/genre/35/movies"), null).execute();
+                        new JSONAsyncTask(ApiUtil.createURL("/genre/35/movies"), null).execute();
                         setActionBarName("Comedy");
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         return false;
                     }
                 });;
@@ -336,10 +252,8 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ClientHTTP.createURL("/genre/53/movies"), null).execute();
+                        new JSONAsyncTask(ApiUtil.createURL("/genre/53/movies"), null).execute();
                         setActionBarName("Thriller");
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         return false;
                     }
                 });
@@ -348,10 +262,8 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ClientHTTP.createURL("/genre/27/movies"), null).execute();
+                        new JSONAsyncTask(ApiUtil.createURL("/genre/27/movies"), null).execute();
                         setActionBarName("Horror");
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         return false;
                     }
                 });
@@ -384,8 +296,6 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         Intent switchIntent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(switchIntent);
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         SpUtil.setPreferenceString(context, "email", "");
                         SpUtil.setPreferenceString(context, "password", "");
                         FirebaseAuth.getInstance().signOut();
@@ -393,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         PrimaryDrawerItem chatItem = new PrimaryDrawerItem().withIdentifier(10).withName("Chat")
-                .withIcon(GoogleMaterial.Icon.gmd_exit_to_app)
+                .withIcon(GoogleMaterial.Icon.gmd_message)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -401,8 +311,6 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         Intent switchIntent = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(switchIntent);
-                        lv.setVisibility(View.VISIBLE);
-                        searchbox.setVisibility(View.INVISIBLE);
                         return false;
                     }
                 });
@@ -438,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
 
-        (new JSONAsyncTask(ClientHTTP.createURL("/movie/now_playing"), null)).execute();
+        (new JSONAsyncTask(ApiUtil.createURL("/movie/now_playing"), null)).execute();
         setActionBarName("Trending");
 
     }
@@ -505,12 +413,9 @@ public class MainActivity extends AppCompatActivity {
         JSONObject jsonObject;
         View view;
 
-
-
         public JSONAsyncTask(String URL, View view) {
             this.URL_STRING = URL;
             this.view = view;
-            current_index = 0;
         }
 
         @Override
@@ -549,114 +454,28 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            System.out.println(result);
             try {
-                jsonObject = new JSONObject(result);
-                JSONArray movies = jsonObject.getJSONArray("results");
-                ids = new String [movies.length()];
-                titles = new String[movies.length()];
-                images = new Bitmap[movies.length()];
-                imagesUrl = new String[movies.length()];
-                descriptions = new String[movies.length()];
-                ratings = new String[movies.length()];
-                genres = new String[movies.length()];
+                ArrayList<MovieInfo> movies = ApiUtil.getMoviesFromJson(result);
 
-                for (int i = 0; i < movies.length(); i++) {
-                    JSONObject obj = movies.getJSONObject(i);
-                    int id = obj.getInt("id");
-                    String title = obj.getString("original_title");
-                    String description = obj.getString("overview");
-                    Double rating = obj.getDouble("vote_average");
-                    Double popularity = obj.getDouble("popularity");
-                    String path_to_jpg = obj.getString("poster_path");
-                    JSONArray genre_ids = obj.getJSONArray("genre_ids");
-                    String photoURLString = ClientHTTP.createPhotoURL(path_to_jpg);
-                    System.out.println(photoURLString);
-
-                    ids[i] = Integer.toString(id);
-                    titles[i] = title;
-                    imagesUrl[i] = photoURLString;
-
-                    int description_length = description.length();
-                    int stop_index = 170;
-                    if(description_length >= 170)
-                        for(int j = 150; j < 170; j++)
-                            if(description.charAt(j) == ' ' || description.charAt(j) == '.')
-                                stop_index = j;
-
-                    if(description_length > 170) {
-                        description = description.substring(0, stop_index);
-                        descriptions[i] = description + " [...]";
-                    } else
-                        descriptions[i] = description;
-
-
-                    ratings[i] = "Rating: " + Double.toString(rating);
-                    genres[i] = "";
-                    for (int j = 0; j < Math.min(genre_ids.length(), 3); j++) {
-                        genres[i] += movieList.getGenre(genre_ids.getInt(j));
-                        if (j != Math.min(genre_ids.length(), 3) - 1)
-                            genres[i] += ", ";
-                    }
-
-                    new ImageAsync(photoURLString).execute();
-
-                }
-
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public class ImageAsync extends AsyncTask<String, Void, Bitmap> {
-            String photoURLString;
-
-            public ImageAsync(String photoURLString) {
-                this.photoURLString = photoURLString;
-            }
-
-            @Override
-            protected Bitmap doInBackground(String... urls) {
-                try {
-                    java.net.URL photoURL = new java.net.URL(photoURLString);
-                    HttpURLConnection connection = (HttpURLConnection) photoURL
-                            .openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                    return myBitmap;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap result) {
-                images[current_index] = result;
-                current_index++;
-
-                CustomList adapter = new CustomList(MainActivity.this,ids, titles, images, descriptions, ratings, genres);
-                lv.setAdapter(adapter);
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                MoviesAdapter adapter = new MoviesAdapter(context, movies);
+                adapter.setListener(new MoviesAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> av, View v, final int i, long l) {
-                        new MaterialDialog.Builder(v.getContext())
-                                .title(titles[i])
-                                .content(descriptions[i])
+                    public void onItemClick(MovieInfo item, int position) {
+                        final MovieInfo movie = item;
+                        new MaterialDialog.Builder(MainActivity.this)
+                                .title(movie.title)
+                                .content(movie.description)
                                 .negativeText("Close")
                                 .positiveText("Add to watchlist")
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        Movie movie = new Movie(titles[i],descriptions[i],genres[i], ratings[i],imagesUrl[i]);
                                         if(!Wishlist.getInstance().containsMovie(movie))
-                                            mDatabaseReference.push().setValue(movie);
+                                            {
+                                                mDatabaseReference.push().setValue(movie);
+                                            }
                                         dialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), titles[i] + " was added to your watchlist!",
+                                        Toast.makeText(getApplicationContext(), movie.title + " was added to your watchlist!",
                                                 Toast.LENGTH_LONG).show();
                                     }})
                                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -668,15 +487,15 @@ public class MainActivity extends AppCompatActivity {
                                 .negativeColor(getResources().getColor(R.color.md_red_700))
                                 .show();
                     }
-
                 });
-
-                if(pDialog.isShowing())
+                rvMovies.setAdapter(adapter);
+                if(pDialog.isShowing()){
                     pDialog.dismiss();
+                }
 
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
         }
     }
-
 }

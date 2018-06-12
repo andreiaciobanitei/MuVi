@@ -16,12 +16,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
 public class Wishlist {
     private static Wishlist instance = null;
-    public  HashSet<MovieInfo> list;
+    public ArrayList<MovieInfo> list;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
@@ -34,34 +35,15 @@ public class Wishlist {
 
     public void fillWatchlist () {
         user = FirebaseAuth.getInstance().getCurrentUser();
-        list = new HashSet<>();
+        list = new ArrayList<>();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("watchlist");
         mChildListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Movie movie = dataSnapshot.getValue(Movie.class);
-                MovieInfo movieInfo = new MovieInfo();
-
-                movieInfo.id = dataSnapshot.getKey();
-                movieInfo.description = movie.getDescription();
-                movieInfo.genres = movie.getGenres();
-                movieInfo.rating = movie.getRating();
-                movieInfo.title = movie.getTitle();
-                try {
-                    java.net.URL photoURL = new java.net.URL(movie.getImageUrl());
-                    HttpURLConnection connection = (HttpURLConnection) photoURL
-                            .openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                    movieInfo.bitmap = myBitmap;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                list.add(movieInfo);
+                MovieInfo movie = dataSnapshot.getValue(MovieInfo.class);
+                movie.id = dataSnapshot.getKey();
+                list.add(movie);
             }
 
             @Override
@@ -71,7 +53,8 @@ public class Wishlist {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                MovieInfo movie = dataSnapshot.getValue(MovieInfo.class);
+                list.remove(movie);
             }
 
             @Override
@@ -100,7 +83,7 @@ public class Wishlist {
     public void clearWishlist () {
         list.clear();
     }
-    public boolean containsMovie (Movie movieToFind){
+    public boolean containsMovie (MovieInfo movieToFind){
         for(MovieInfo movie : list)
             if(movie.title.equals(movieToFind.getTitle()) ){
                 return  true;

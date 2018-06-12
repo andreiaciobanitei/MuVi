@@ -9,9 +9,10 @@ public class MovieInfo {
     public String id;
     public String title;
     public String description;
+    public String shortDescription;
     public String genres;
     public String rating;
-    public Bitmap bitmap;
+    public String photoUrl;
 
     public boolean equals(Object o) {
         return (o instanceof MovieInfo) && (((MovieInfo)o).getTitle()).equals(this.title);
@@ -33,13 +34,22 @@ public class MovieInfo {
     public MovieInfo() {
     }
 
-    public MovieInfo(String id, String title, String description, String rating, String genres, Bitmap bitmap) {
-        this.genres = genres;
+    public MovieInfo(String id, String title, String description, String shortDescription, String genres, String rating, String photoUrl) {
         this.id = id;
-        this.rating = rating;
         this.title = title;
         this.description = description;
-        this.bitmap = bitmap;
+        this.shortDescription = shortDescription;
+        this.genres = genres;
+        this.rating = rating;
+        this.photoUrl = photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
 
