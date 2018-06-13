@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Wishlist.getInstance().clearWishlist();
+                        Wishlist.clearWishlist();
                         finish();
                         Intent switchIntent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(switchIntent);
@@ -307,7 +307,6 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Wishlist.getInstance().clearWishlist();
                         finish();
                         Intent switchIntent = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(switchIntent);
@@ -372,8 +371,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void hideKeyboard(View view) {
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
@@ -404,7 +405,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void setActionBarName(String name) {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(name);
+        if(actionBar != null)
+            actionBar.setTitle(name);
     }
 
     public class JSONAsyncTask extends AsyncTask<String, Void, String> {
@@ -471,9 +473,9 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                         if(!Wishlist.getInstance().containsMovie(movie))
-                                            {
-                                                mDatabaseReference.push().setValue(movie);
-                                            }
+                                        {
+                                            mDatabaseReference.push().setValue(movie);
+                                        }
                                         dialog.dismiss();
                                         Toast.makeText(getApplicationContext(), movie.title + " was added to your watchlist!",
                                                 Toast.LENGTH_LONG).show();

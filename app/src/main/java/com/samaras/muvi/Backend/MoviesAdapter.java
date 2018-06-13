@@ -29,6 +29,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         this.listener = listener;
     }
 
+    public void deleteMovie(int position) {
+        movies.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -48,10 +53,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         return movies.size();
     }
 
-    public void deleteMovie(int position) {
-        movies.remove(position);
-        notifyItemRemoved(position);
-    }
+
 
     public interface OnItemClickListener {
         void onItemClick(MovieInfo item, int position);

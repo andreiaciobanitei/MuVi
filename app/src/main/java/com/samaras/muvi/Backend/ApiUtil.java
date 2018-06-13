@@ -25,7 +25,7 @@ public class ApiUtil {
     }
 
     public static ArrayList<MovieInfo> getMoviesFromJson(String json) {
-        ArrayList<MovieInfo> movies = new ArrayList<MovieInfo>();
+        ArrayList<MovieInfo> movies = new ArrayList<>();
 
         try {
             JSONObject jsonObject = new JSONObject(json);

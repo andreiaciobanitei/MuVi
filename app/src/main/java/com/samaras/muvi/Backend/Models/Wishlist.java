@@ -80,8 +80,8 @@ public class Wishlist {
         list.add(movieInfo);
     }
 
-    public void clearWishlist () {
-        list.clear();
+    public static void clearWishlist () {
+        instance = null;
     }
     public boolean containsMovie (MovieInfo movieToFind){
         for(MovieInfo movie : list)
