@@ -307,8 +307,18 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        finish();
                         Intent switchIntent = new Intent(getApplicationContext(), ChatActivity.class);
+                        startActivity(switchIntent);
+                        return false;
+                    }
+                });
+
+        PrimaryDrawerItem cinemaItem = new PrimaryDrawerItem().withIdentifier(10).withName("Cinema")
+                .withIcon(GoogleMaterial.Icon.gmd_schedule)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Intent switchIntent = new Intent(getApplicationContext(), CinemaActivity.class);
                         startActivity(switchIntent);
                         return false;
                     }
@@ -338,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
                         searchItem,
                         wishlistItem,
                         new DividerDrawerItem(),
+                        cinemaItem,
                         chatItem,
                         profileItem,
                         logoutItem)
