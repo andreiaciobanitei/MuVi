@@ -1,5 +1,7 @@
 package com.samaras.muvi.Activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,15 +10,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
-import com.samaras.muvi.Backend.ApiUtil;
-import com.samaras.muvi.Fragments.OneFragment;
-import com.samaras.muvi.Fragments.ThreeFragment;
-import com.samaras.muvi.Fragments.TwoFragment;
+import com.samaras.muvi.Backend.Models.CinemaSchedules;
+import com.samaras.muvi.Fragments.FridayFragment;
+import com.samaras.muvi.Fragments.MondayFragment;
+import com.samaras.muvi.Fragments.SaturdayFragment;
+import com.samaras.muvi.Fragments.SundayFragment;
+import com.samaras.muvi.Fragments.ThursdayFragment;
+import com.samaras.muvi.Fragments.TuesdayFragment;
+import com.samaras.muvi.Fragments.WednesdayFragment;
 import com.samaras.muvi.R;
 
 import java.util.ArrayList;
@@ -30,7 +35,7 @@ public class CinemaActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private static MenuItem item;
-
+    private  static CinemaSchedules cinemaSchedules;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -45,30 +50,40 @@ public class CinemaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cinema);
+        Intent intent = getIntent();
+        String cinemaName = intent.getExtras().getString("cinema");
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setActionBar(cinemaName);
 
-        setActionBar("Cinema Schedule");
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager, true);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OneFragment(), "ONE");
-        adapter.addFragment(new TwoFragment(), "TWO");
-        adapter.addFragment(new ThreeFragment(), "THREE");
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), CinemaActivity.this);
+        adapter.addFragment(new MondayFragment(), "Monday");
+        adapter.addFragment(new TuesdayFragment(), "Tuesday");
+        adapter.addFragment(new WednesdayFragment(), "Wednesday");
+        adapter.addFragment(new ThursdayFragment(), "Thursday");
+        adapter.addFragment(new FridayFragment(), "Friday");
+        adapter.addFragment(new SaturdayFragment(), "Saturday");
+        adapter.addFragment(new SundayFragment(), "Sunday");
         viewPager.setAdapter(adapter);
     }
 
     public void setActionBar(String name) {
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
-            actionBar.setTitle(name);
+            if(name.equals("cinema_city_afi")) {
+                actionBar.setTitle("Cinema City Afi Schedule");
+            }
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
@@ -79,10 +94,13 @@ public class CinemaActivity extends AppCompatActivity {
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+        Context context;
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        public ViewPagerAdapter(FragmentManager manager, Context context) {
             super(manager);
+            this.context = context;
         }
+
 
         @Override
         public Fragment getItem(int position) {
@@ -91,7 +109,7 @@ public class CinemaActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return mFragmentList.size();
+            return  mFragmentList!= null ? mFragmentList.size() : 0;
         }
 
         public void addFragment(Fragment fragment, String title) {

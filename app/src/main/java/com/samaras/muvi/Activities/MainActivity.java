@@ -50,6 +50,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.samaras.muvi.Backend.ApiUtil;
+import com.samaras.muvi.Backend.Models.CinemaSchedules;
 import com.samaras.muvi.Backend.Models.MovieInfo;
 import com.samaras.muvi.Backend.Models.MovieList;
 import com.samaras.muvi.Backend.Models.Wishlist;
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager  moviesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvMovies.setLayoutManager(moviesLayoutManager);
 
+        CinemaSchedules.getSchedule("cinema_city_afi");
 
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
@@ -313,16 +315,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        PrimaryDrawerItem cinemaItem = new PrimaryDrawerItem().withIdentifier(10).withName("Cinema")
-                .withIcon(GoogleMaterial.Icon.gmd_schedule)
+        List<IDrawerItem> cinemaSubitems = new ArrayList<>();
+        SecondaryDrawerItem cinemaCityAfi = new SecondaryDrawerItem().withIdentifier(1).withName("Cinema City Afi").withLevel(2)
+                .withIcon(GoogleMaterial.Icon.gmd_movie)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         Intent switchIntent = new Intent(getApplicationContext(), CinemaActivity.class);
+                        switchIntent.putExtra("cinema", "cinema_city_afi");
                         startActivity(switchIntent);
                         return false;
                     }
                 });
+        cinemaSubitems.add(cinemaCityAfi);
+        PrimaryDrawerItem cinemaItem = new PrimaryDrawerItem().withIdentifier(10)
+                .withSubItems(cinemaSubitems)
+                .withName("Cinema")
+                .withIcon(GoogleMaterial.Icon.gmd_list)
+                .withIcon(GoogleMaterial.Icon.gmd_arrow_drop_down);
+
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         headerResult = new AccountHeaderBuilder()
