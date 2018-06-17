@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class ChatActivity extends AppCompatActivity implements RoomListener {
-        
+
     private String channelID = "Xmj9UQQZ5e9DwAhf";
     private String roomName = "observable-room";
     private EditText editText;
@@ -88,6 +88,7 @@ public class ChatActivity extends AppCompatActivity implements RoomListener {
             textView.append(jsonNode.asText());
             System.out.println(jsonNode.asText());
             textView.append("\n");
+            it.remove();
         }
 
         textView.setAllCaps(true);
@@ -166,7 +167,7 @@ public class ChatActivity extends AppCompatActivity implements RoomListener {
         String message = editText.getText().toString();
         if (message.length() > 0) {
             scaledrone.publish(roomName, message);
-            editText.getText().clear();
+            editText.setText("");
         }
     }
 
