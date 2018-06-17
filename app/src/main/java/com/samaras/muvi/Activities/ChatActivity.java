@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.samaras.muvi.Backend.Models.MemberData;
 import com.samaras.muvi.Backend.Models.Message;
 import com.samaras.muvi.Backend.Models.MessageAdapter;
-import com.samaras.muvi.Backend.Models.OnlineUser;
 import com.samaras.muvi.R;
 import com.scaledrone.lib.Listener;
 import com.scaledrone.lib.Member;
@@ -88,7 +87,6 @@ public class ChatActivity extends AppCompatActivity implements RoomListener {
             textView.append(jsonNode.asText());
             System.out.println(jsonNode.asText());
             textView.append("\n");
-            it.remove();
         }
 
         textView.setAllCaps(true);
