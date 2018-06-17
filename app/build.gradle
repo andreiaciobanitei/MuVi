@@ -20,6 +20,7 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-v4:25.4.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.scaledrone:scaledrone-java:0.3.0'
     api fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {

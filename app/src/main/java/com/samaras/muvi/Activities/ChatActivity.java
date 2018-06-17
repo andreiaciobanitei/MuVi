@@ -40,8 +40,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class ChatActivity extends AppCompatActivity implements RoomListener {
-
-    private static List<OnlineUser> onlineUsers;
+        
     private String channelID = "Xmj9UQQZ5e9DwAhf";
     private String roomName = "observable-room";
     private EditText editText;
