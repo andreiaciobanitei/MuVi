@@ -4,15 +4,17 @@
     android:layout_height="wrap_content"
     android:paddingLeft="15dp"
     android:paddingRight="60dp"
+    android:paddingTop="15dp"
     android:clipToPadding="false">
 
-    <View
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/avatar"
-        android:layout_alignParentLeft="true"
-        android:scaleType="centerInside"
-        android:background="@drawable/circle"
-        android:layout_width="34dp"
-        android:layout_height="34dp" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/circle"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000" />
 
     <TextView
         android:id="@+id/name"

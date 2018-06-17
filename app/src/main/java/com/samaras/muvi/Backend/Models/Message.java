@@ -1,5 +1,8 @@
 package com.samaras.muvi.Backend.Models;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class Message {
     private String text; // message body
     private MemberData data; // data of the user that sent this message

@@ -8,12 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.samaras.muvi.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -58,15 +64,18 @@ public class MessageAdapter extends BaseAdapter {
             holder.messageBody.setText(message.getText());
         } else {
             convertView = messageInflater.inflate(R.layout.their_message, null);
-            holder.avatar = (View) convertView.findViewById(R.id.avatar);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.messageBody = (TextView) convertView.findViewById(R.id.message_body);
             convertView.setTag(holder);
 
             holder.name.setText(message.getData().getName());
             holder.messageBody.setText(message.getText());
-            GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
-            drawable.setColor(Color.parseColor(message.getData().getColor()));
+            CircleImageView imageView = (CircleImageView) convertView.findViewById(R.id.avatar);
+            Picasso.with(imageView.getContext())
+                    .load(message.getData().getPhotoUri()
+                    ).into(imageView);
+/*            GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
+            drawable.setColor(Color.parseColor(message.getData().getColor()));*/
         }
 
         return convertView;

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.samaras.muvi.Activities.ChatActivity;
 import com.samaras.muvi.Activities.ProfileActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -34,14 +35,21 @@ public class OpportunisticReceiver extends BroadcastReceiver {
                 PendingIntent pIntent =
                         stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
+                Intent resultIntent2 = new Intent(context, ChatActivity.class);
+
+                TaskStackBuilder stackBuilder2 = TaskStackBuilder.create(context);
+                stackBuilder2.addNextIntentWithParentStack(resultIntent2);
+                PendingIntent pIntent2 =
+                        stackBuilder2.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
                 Notification n  = new Notification.Builder(context)
                         .setContentTitle("MuVi")
-                        .setContentText("User connected to access point with id: " + userId)
+                        .setContentText(userId + " connected")
                         .setSmallIcon(R.drawable.icon)
                         .setContentIntent(pIntent)
                         .setAutoCancel(true)
                         .addAction(R.drawable.popcorn, "Call", pIntent)
-                        .addAction(R.drawable.popcorn, "Chat", pIntent).build();
+                        .addAction(R.drawable.popcorn, "Chat", pIntent2).build();
 
                 n.defaults |= Notification.DEFAULT_SOUND;
 
@@ -67,7 +75,7 @@ public class OpportunisticReceiver extends BroadcastReceiver {
 
                 Notification n  = new Notification.Builder(context)
                         .setContentTitle("MuVi")
-                        .setContentText("User disconnected from access point with id: " + userId)
+                        .setContentText(userId + " disconnected")
                         .setSmallIcon(R.drawable.icon)
                         .setContentIntent(pIntent)
                         .setAutoCancel(true)
