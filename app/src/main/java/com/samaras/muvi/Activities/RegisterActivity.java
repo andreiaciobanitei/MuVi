@@ -71,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity {
     public void registerNewEmail(final String email, String password){
 
         Utils.showDialog(mProgressBar);
-
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -80,12 +79,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                         if (task.isSuccessful()){
                             Log.d(TAG, "onComplete: AuthState: " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-
                             //send email verificaiton
                             sendVerificationEmail();
 
                             FirebaseAuth.getInstance().signOut();
-
                             //redirect the user to the login screen
                             redirectLoginScreen();
                         }

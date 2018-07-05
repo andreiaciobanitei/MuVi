@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.typeface.IIcon;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -50,6 +51,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.samaras.muvi.Backend.ApiUtil;
+import com.samaras.muvi.Backend.EndlessRecyclerViewScrollListener;
 import com.samaras.muvi.Backend.Models.CinemaSchedules;
 import com.samaras.muvi.Backend.Models.MovieInfo;
 import com.samaras.muvi.Backend.Models.MovieList;
@@ -75,22 +77,20 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ProgressDialog pDialog;
     private FirebaseUser user;
-    MovieList movieList;
+    ArrayList<MovieInfo> moviesToShow = new ArrayList<>();
     Context context;
     Toolbar toolbar;
     private static MenuItem item;
     Drawer result;
-    Bitmap[] images;
-    String[] titles;
-    String[] ids;
-    String[] ratings;
-    String[] descriptions;
-    String[] genres;
     AccountHeader headerResult;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private RecyclerView rvMovies;
-
+    private EndlessRecyclerViewScrollListener scrollListener;
+    int pageNumber = 1;
+    MoviesAdapter adapter;
+    public String requestString = "/movie/now_playing";
+    public boolean cautare_film = false;
 
     public static void close(){
         item.collapseActionView();
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                cautare_film = true;
                 String term = query.replaceAll(" ", "+");
                 String url = ApiUtil.createURL("/search/movie") + "&query=\"" + term + "\"";
                 new JSONAsyncTask(url, null).execute();
@@ -131,10 +132,16 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabaseReference = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("watchlist");
-        movieList = new MovieList();
         rvMovies = (RecyclerView) findViewById(R.id.rv_movies);
         LinearLayoutManager  moviesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvMovies.setLayoutManager(moviesLayoutManager);
+        scrollListener = new EndlessRecyclerViewScrollListener(moviesLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                (new JSONAsyncTask(ApiUtil.createURL(requestString, ++pageNumber), null)).execute();
+            }
+        };
+        rvMovies.addOnScrollListener(scrollListener);
 
         CinemaSchedules.getSchedule("cinema_city_afi");
 
@@ -143,7 +150,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
                 Picasso.with(imageView.getContext())
-                        .load(uri).placeholder(placeholder)
+                        .load(uri)
+                        .fit()
+                        .placeholder(getResources().getDrawable(R.drawable.default_profile_icon))
                         .into(imageView);
             }
 
@@ -160,7 +169,10 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        (new JSONAsyncTask(ApiUtil.createURL("/movie/now_playing"), null)).execute();
+                        moviesToShow.clear();
+                        pageNumber = 1;
+                        requestString = "/movie/now_playing";
+                        (new JSONAsyncTask(ApiUtil.createURL(requestString, pageNumber), null)).execute();
                         setActionBarName("Trending");
                         return false;
                     }
@@ -170,17 +182,11 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ApiUtil.createURL("/movie/top_rated"), null).execute();
+                        moviesToShow.clear();
+                        pageNumber = 1;
+                        requestString = "/movie/top_rated";
+                        (new JSONAsyncTask(ApiUtil.createURL(requestString, pageNumber), null)).execute();
                         setActionBarName("Top Rated");
-                        return false;
-                    }
-                });
-        PrimaryDrawerItem searchItem = new PrimaryDrawerItem().withIdentifier(10).withName("Search")
-                .withIcon(GoogleMaterial.Icon.gmd_search)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        setActionBarName("Search");
                         return false;
                     }
                 });
@@ -234,7 +240,10 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ApiUtil.createURL("/genre/28/movies"), null).execute();
+                        moviesToShow.clear();
+                        pageNumber = 1;
+                        requestString = "/genre/28/movies";
+                        (new JSONAsyncTask(ApiUtil.createURL(requestString, pageNumber), null)).execute();
                         setActionBarName("Action");
                         return false;
                     }
@@ -244,7 +253,11 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ApiUtil.createURL("/genre/35/movies"), null).execute();
+                        moviesToShow.clear();
+                        pageNumber = 1;
+                        requestString = "/genre/35/movies";
+                        (new JSONAsyncTask(ApiUtil.createURL(requestString, pageNumber), null)).execute();
+                        setActionBarName("Action");
                         setActionBarName("Comedy");
                         return false;
                     }
@@ -254,7 +267,10 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ApiUtil.createURL("/genre/53/movies"), null).execute();
+                        moviesToShow.clear();
+                        pageNumber = 1;
+                        requestString = "/genre/53/movies";
+                        (new JSONAsyncTask(ApiUtil.createURL(requestString, pageNumber), null)).execute();
                         setActionBarName("Thriller");
                         return false;
                     }
@@ -264,7 +280,10 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        new JSONAsyncTask(ApiUtil.createURL("/genre/27/movies"), null).execute();
+                        moviesToShow.clear();
+                        pageNumber = 1;
+                        requestString = "/genre/27/movies";
+                        (new JSONAsyncTask(ApiUtil.createURL(requestString, pageNumber), null)).execute();
                         setActionBarName("Horror");
                         return false;
                     }
@@ -334,18 +353,16 @@ public class MainActivity extends AppCompatActivity {
                 .withIcon(GoogleMaterial.Icon.gmd_list)
                 .withIcon(GoogleMaterial.Icon.gmd_arrow_drop_down);
 
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withHeaderBackground(R.drawable.header)
-                .addProfiles(
-                        new ProfileDrawerItem()
-                                .withName(user.getDisplayName())
-                                .withIcon(user.getPhotoUrl())
-                                .withIdentifier(1)
-                )
+                .addProfiles(new ProfileDrawerItem()
+                        .withName(user.getDisplayName())
+                        .withIcon(user.getPhotoUrl())
+                        .withEmail(user.getEmail())
+                        .withIdentifier(1))
                 .build();
 
         result = new DrawerBuilder()
@@ -356,7 +373,6 @@ public class MainActivity extends AppCompatActivity {
                         trendingItem,
                         topRatedItem,
                         categoriesItem,
-                        searchItem,
                         wishlistItem,
                         new DividerDrawerItem(),
                         cinemaItem,
@@ -367,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
 
-        (new JSONAsyncTask(ApiUtil.createURL("/movie/now_playing"), null)).execute();
+        (new JSONAsyncTask(ApiUtil.createURL("/movie/now_playing", pageNumber), null)).execute();
         setActionBarName("Trending");
 
     }
@@ -404,7 +420,10 @@ public class MainActivity extends AppCompatActivity {
         if(user != null) {
             IProfile activeProfile = headerResult.getActiveProfile();
             activeProfile.withName(user.getDisplayName());
-            activeProfile.withIcon(user.getPhotoUrl());
+            if(user.getPhotoUrl() != null)
+                activeProfile.withIcon(user.getPhotoUrl());
+            else
+                activeProfile.withIcon(getResources().getDrawable(R.drawable.default_profile_icon));
             headerResult.updateProfile(activeProfile);
         }
     }
@@ -434,7 +453,6 @@ public class MainActivity extends AppCompatActivity {
     public class JSONAsyncTask extends AsyncTask<String, Void, String> {
         HttpURLConnection urlConnection;
         String URL_STRING;
-        JSONObject jsonObject;
         View view;
 
         public JSONAsyncTask(String URL, View view) {
@@ -480,41 +498,61 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
                 ArrayList<MovieInfo> movies = ApiUtil.getMoviesFromJson(result);
-
-                MoviesAdapter adapter = new MoviesAdapter(context, movies);
-                adapter.setListener(new MoviesAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(MovieInfo item, int position) {
-                        final MovieInfo movie = item;
-                        new MaterialDialog.Builder(MainActivity.this)
-                                .title(movie.title)
-                                .content(movie.description)
-                                .negativeText("Close")
-                                .positiveText("Add to watchlist")
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        if(!Wishlist.getInstance().containsMovie(movie))
-                                        {
-                                            mDatabaseReference.push().setValue(movie);
+                if (moviesToShow.isEmpty()) {
+                    moviesToShow.addAll(movies);
+                    adapter = new MoviesAdapter(context, moviesToShow);
+                    adapter.setListener(new MoviesAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(MovieInfo item, int position) {
+                            final MovieInfo movie = item;
+                            new MaterialDialog.Builder(MainActivity.this)
+                                    .title(movie.title)
+                                    .content(movie.description)
+                                    .negativeText("Close")
+                                    .positiveText("Add to watchlist")
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            if (!Wishlist.getInstance().containsMovie(movie)) {
+                                                mDatabaseReference.push().setValue(movie);
+                                            }
+                                            dialog.dismiss();
+                                            Toast.makeText(getApplicationContext(), movie.title + " was added to your watchlist!",
+                                                    Toast.LENGTH_LONG).show();
                                         }
-                                        dialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), movie.title + " was added to your watchlist!",
-                                                Toast.LENGTH_LONG).show();
-                                    }})
-                                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        dialog.dismiss();
-                                    }})
+                                    })
+                                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
 
-                                .negativeColor(getResources().getColor(R.color.md_red_700))
-                                .show();
+                                    .negativeColor(getResources().getColor(R.color.md_red_700))
+                                    .show();
+                        }
+                    });
+                    rvMovies.setAdapter(adapter);
+                    if (pDialog.isShowing()) {
+                        pDialog.dismiss();
                     }
-                });
-                rvMovies.setAdapter(adapter);
-                if(pDialog.isShowing()){
-                    pDialog.dismiss();
+                } else {
+                    if(cautare_film) {
+                        cautare_film = false;
+                        moviesToShow.clear();
+                        moviesToShow.addAll(movies);
+                        adapter.notifyDataSetChanged();
+                        if (pDialog.isShowing()) {
+                            pDialog.dismiss();
+                        }
+                    }
+                    else {
+                        moviesToShow.addAll(movies);
+                        adapter.notifyDataSetChanged();
+                        if (pDialog.isShowing()) {
+                            pDialog.dismiss();
+                        }
+                    }
                 }
 
             } catch (Exception e) {

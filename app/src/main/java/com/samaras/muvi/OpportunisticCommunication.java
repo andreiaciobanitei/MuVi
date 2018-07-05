@@ -30,7 +30,8 @@ public class OpportunisticCommunication extends Channel {
                 userId = "Andrei Aciobanitei";
                 break;
             default:
-                userId = "User necunoscut";
+                Log.v("userid",  userId);
+                userId = "Lungu Cosmin Robert";
         }
         Intent intent = new Intent(this, OpportunisticReceiver.class);
         intent.putExtra("action", "connected");

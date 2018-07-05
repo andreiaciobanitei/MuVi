@@ -8,7 +8,7 @@
     tools:context="com.samaras.muvi.Activities.FirstActivity">
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/MuViIcon"
         android:layout_width="74dp"
         android:layout_height="478dp"
         android:layout_marginBottom="8dp"
@@ -20,11 +20,13 @@
         app:srcCompat="@drawable/popcorn" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/MuViText"
         android:layout_width="102dp"
         android:layout_height="39dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
@@ -37,10 +39,47 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintStart_toEndOf="@+id/imageView8"
+        app:layout_constraintHorizontal_bias="0.687"
+        app:layout_constraintStart_toEndOf="@+id/MuViIcon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.482"
         tools:text="MuVi" />
+
+    <TextView
+        android:id="@+id/checkConnection"
+        android:layout_width="310dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Your device is not connected to internet.Check your internet connection and try again."
+        android:textColor="@color/errorColor"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.27" />
+
+    <Button
+        android:id="@+id/tryAgainBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="16dp"
+        android:text="Try again!"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkConnection"
+        app:layout_constraintVertical_bias="0.012" />
 
 </android.support.constraint.ConstraintLayout>

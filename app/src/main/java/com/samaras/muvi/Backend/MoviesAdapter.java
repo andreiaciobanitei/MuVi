@@ -87,9 +87,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             movieRating.setText(movie.rating);
             movieDescription.setText(movie.shortDescription);
             movieGenres.setText(movie.genres);
-            Picasso.with(context)
-                    .load(movie.photoUrl)
-                    .into(movieImg);
+            if(movie.photoUrl != null) {
+                Picasso.with(context)
+                        .load(movie.photoUrl)
+                        .placeholder(R.drawable.default_movie)
+                        .into(movieImg);
+            } else {
+                Picasso.with(context)
+                        .load(R.drawable.default_movie)
+                        .placeholder(R.drawable.default_movie)
+                        .into(movieImg);
+            }
         }
 
     }

@@ -13,11 +13,16 @@ public class ApiUtil {
     private static final String API_KEY = "f76dfa1acb7d1a736694eec710bd040b";
     private static final String baseLink = "https://api.themoviedb.org/3";
     private static final String keyString = "?api_key=";
+    private static final String pageString = "&page=";
     private static MovieList movieList = new MovieList();
 
 
     public static String createURL(String requestString) {
         return baseLink + requestString + keyString + API_KEY;
+    }
+    public static String createURL(String requestString, int pageNumber) {
+        //return baseLink + requestString + keyString + API_KEY + "&language=ro" + pageString + Integer.toString(pageNumber);
+        return baseLink + requestString + keyString + API_KEY + pageString + Integer.toString(pageNumber);
     }
 
     public static String createPhotoURL(String pathString) {
@@ -35,7 +40,7 @@ public class ApiUtil {
                 JSONObject movieJson = arrayMovies.getJSONObject(i);
 
                 int id = movieJson.getInt("id");
-                String title = movieJson.getString("original_title");
+                String title = movieJson.getString("title");
                 String description = movieJson.getString("overview");
                 Double ratingDouble = movieJson.getDouble("vote_average");
                 Double popularity = movieJson.getDouble("popularity");
